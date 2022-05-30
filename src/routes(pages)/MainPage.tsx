@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CardCarousel from "../components/Carousel/CardCarousel";
-import ProductGrid from "../components/ProductList/ProductGrid";
+import ProductLayout from "../components/ProductLayout/ProductLayout";
 
 const Container = styled.div`
   width: 100%;
@@ -13,7 +13,7 @@ export default function MainPage() {
   return (
     <Container>
       <CardCarousel />
-      <ProductGrid />
+      <ProductLayout />
     </Container>
   );
 }

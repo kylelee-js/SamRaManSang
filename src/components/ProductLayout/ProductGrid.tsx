@@ -8,6 +8,7 @@ const Contaier = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  padding: 10px;
 `;
 
 export interface Rating {
@@ -25,16 +26,15 @@ export interface Product {
   rating: Rating;
 }
 
-export default function ProductGrid() {
-  // TODO: 과연 여기서 데이터를 받는게 맞나? 상위 App이나 server state를 받는 상위 컴포넌트로부터 상속 받아야하지 않을까?
-  const { data, isLoading } = useQuery<Product[]>("allProduct", () =>
-    getAllProducts()
-  );
-
+type ProductGridProps = {
+  product: Product[] | undefined;
+};
+export default function ProductGrid({ product }: ProductGridProps) {
+  // TODO: framer-motion layout 애니메이션으로 정렬 애니메이션 추가하기
   return (
     <Contaier>
-      {data?.slice(0, 15).map((product) => {
-        return <ProductBox product={product} />;
+      {product?.map((product, idx) => {
+        return <ProductBox key={idx} product={product} />;
       })}
     </Contaier>
   );
