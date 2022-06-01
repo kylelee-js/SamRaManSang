@@ -1,8 +1,9 @@
+import { motion, Variants } from "framer-motion";
 import { useNavigate, useNavigationType } from "react-router-dom";
 import styled from "styled-components";
 import { Product } from "./ProductGrid";
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   justify-content: center;

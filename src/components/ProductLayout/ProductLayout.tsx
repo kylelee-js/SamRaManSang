@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getAllProducts } from "../../api/getAllProducts";
@@ -7,31 +7,41 @@ import ProductGrid, { Product } from "./ProductGrid";
 
 const Container = styled.div``;
 
-export default function ProductLayout() {
-  let [category, setCategory] = useState<string[]>([]);
-  const { data, isLoading } = useQuery<Product[]>("allProduct", () =>
-    getAllProducts()
-  );
+type ProductLayoutProps = {
+  products: Product[];
+};
+export default function ProductLayout({ products }: ProductLayoutProps) {
+  // FIXME: 동기적으로 data 받아올 때까지 state
+  const [product, setProduct] = useState<Product[]>([]);
+  const [onClick, setOnClick] = useState(false);
 
-  const getCategory = useCallback(
-    (cateArr: string[]) => {
-      // TODO: 정렬시 쿼리스트링 URI에 추가하기
-      // location.push("?cate= 이런식?")
-      setCategory([...cateArr]);
-    },
-    [category]
-  );
+  // TODO: 정렬시 쿼리스트링 URI에 추가하기
+  // location.push("?cate= 이런식?")
+  useEffect(() => {
+    if (products !== undefined) {
+      setProduct(products);
+    }
+  }, [products]);
 
-  return (
-    <Container>
-      <CategoryMenu getCateArr={getCategory} />
-      <ProductGrid
-        product={
-          category.length == 0
-            ? data
-            : data?.filter((el) => category.find((e) => e == el.category))
-        }
-      />
-    </Container>
-  );
+  // if (isLoading) {
+  //   return (
+  //     <Container>
+  //       <>Loading...</>
+  //     </Container>
+  //   );
+  // }
+
+  if (products !== undefined) {
+    return (
+      <Container>
+        <CategoryMenu
+          setProduct={setProduct}
+          productData={products}
+          setOnClick={setOnClick}
+        />
+        <ProductGrid products={product} onClick={onClick} />
+      </Container>
+    );
+  }
+  return <>"someting wrong"</>;
 }

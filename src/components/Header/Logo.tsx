@@ -4,13 +4,16 @@ import styled, { keyframes } from "styled-components";
 import useInterval from "../../hooks/useInterval";
 
 const Container = styled.div`
-  background-color: grey;
+  background-color: #918f8f;
   border-radius: 5px;
   padding: 5px;
   margin: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   // height * width ?
   cursor: pointer;
 `;
+
+// TODO: 폰트 찾아서 적용하기
 const CI = styled.h1`
   display: flex;
   align-items: center;
@@ -56,7 +59,6 @@ export default function Logo() {
   }, 7000);
   return (
     <Container onClick={onClick}>
-      {/* TODO: 폰트 적용하기 */}
       <CI>
         <Word>{title}</Word> : 신비한 상점
       </CI>

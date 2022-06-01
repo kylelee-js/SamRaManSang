@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
-import { getAllProducts } from "../../api/getAllProducts";
 import ProductBox from "./ProductBox";
 
-const Contaier = styled.div`
+const Contaier = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -27,15 +25,20 @@ export interface Product {
 }
 
 type ProductGridProps = {
-  product: Product[] | undefined;
+  products: Product[];
+  onClick: boolean;
 };
-export default function ProductGrid({ product }: ProductGridProps) {
-  // TODO: framer-motion layout 애니메이션으로 정렬 애니메이션 추가하기
+export default function ProductGrid({ products, onClick }: ProductGridProps) {
   return (
-    <Contaier>
-      {product?.map((product, idx) => {
-        return <ProductBox key={idx} product={product} />;
-      })}
+    <Contaier
+      animate={onClick ? { opacity: [1, 0, 1] } : { opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <AnimatePresence>
+        {products?.map((product, idx) => (
+          <ProductBox key={idx} product={product} />
+        ))}
+      </AnimatePresence>
     </Contaier>
   );
 }
